@@ -1,0 +1,8 @@
+<tr th:fragment="productRow" th:id="'product-'+${product.id}">
+    <td th:text="${#lists.size(${products})}"></td>
+    <td th:text="${product.id}"></td>
+    <td th:text="${product.title}"></td>
+    <td th:text="${product.vendor}"></td>
+    <td th:text="${product.productType}"></td>
+    <td th:text="${product.price}"></td>
+</tr>

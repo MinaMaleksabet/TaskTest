@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Products</title>
+
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.5"></script>
+
+    <!-- Web Awesome -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/web-awesome/dist/web-awesome.css">
+
+    <style>
+        /* Body */
+        body {
+            background-color: #d2e4f8;
+            transition: background-color 0.4s ease;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 30px;
+            text-align: center;
+        }
+
+        body.products-loaded {
+            background-color: #e4cff1;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Load Products Button */
+        .button-container {
+            margin-bottom: 25px;
+        }
+
+        .load-btn {
+            background-color: #0e3680;
+            color: white;
+            font-weight: bold;
+            border-radius: 8px;
+            padding: 12px 26px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .load-btn:hover {
+            background-color: #4659ae;
+            transform: scale(1.03);
+        }
+
+        /* Table */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        table, th, td {
+            border: 1px solid #000;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #e4cff1;
+        }
+
+        /* =========================
+           Add Product Button
+        ========================= */
+        .wa-btn-success.add-product-btn {
+            background-color: #330651;
+            color: white;
+            font-weight: bold;
+            border-radius: 12px;
+            padding: 10px 20px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+            transition: 0.3s;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .wa-btn-success.add-product-btn:hover {
+            background-color: #6e3198;
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.25);
+        }
+
+        /* =========================
+           Form Container
+        ========================= */
+        .form-container {
+            margin: 20px auto 30px;
+            max-width: 500px;
+        }
+
+        .product-form {
+            background: #f1cdf8;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 14px 30px rgba(0,0,0,0.18);
+            animation: slideDown 0.4s ease;
+            text-align: left;
+            max-width: 500px;
+            width: 90%;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .field {
+            margin-bottom: 12px;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-group i {
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%);
+            color: #6b6b6b;
+            font-size: 14px;
+        }
+
+        .input-group input {
+            width: 80%;
+            padding: 8px 12px 8px 36px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            background-color: #f8f9ff;
+            outline: none;
+            font-size: 14px;
+            transition: 0.25s;
+        }
+
+        .input-group input:focus {
+            border-color: #0e3680;
+            box-shadow: 0 0 0 3px rgba(14,54,128,0.25);
+            background-color: #ffffff;
+        }
+
+        .input-group input:invalid {
+            border-color: #4a0253;
+        }
+
+        .input-group input:invalid:focus {
+            box-shadow: 0 0 0 3px rgba(100, 34, 154,0.25);
+        }
+
+        .save-btn {
+            width: 100%;
+            margin-top: 18px;
+            padding: 13px;
+            font-weight: bold;
+            border-radius: 12px;
+            background-color: #3c144e;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .save-btn:hover {
+            background-color: #862cb5;
+            transform: scale(1.03);
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Products</h1>
+
+<!-- Load Products Button -->
+<div class="button-container">
+    <button id="loadBtn"
+            class="load-btn wa-btn wa-btn-lg"
+            hx-get="/products/load"
+            hx-target="#productsContainer"
+            hx-swap="innerHTML">
+        <i class="wa-icon wa-icon-download"></i>
+        Load Products
+    </button>
+</div>
+
+<!-- Container where products table & Add Product form will load -->
+<div id="productsContainer"></div>
+
+<script>
+    document.body.addEventListener('htmx:afterSwap', function (evt) {
+        if (evt.target.id === 'productsContainer') {
+            document.body.classList.add('products-loaded');
+
+            const loadBtn = document.getElementById('loadBtn');
+            if (loadBtn) {
+                loadBtn.remove();
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

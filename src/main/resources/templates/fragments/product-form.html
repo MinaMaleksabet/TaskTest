@@ -1,0 +1,34 @@
+<div th:fragment="productForm">
+    <form id="productForm" class="product-form"
+          hx-post="/products/add" hx-target="#productsContainer" hx-swap="outerHTML">
+
+        <div class="row">
+            <div class="field input-group">
+                <i class="wa-icon wa-icon-hashtag"></i>
+                <input type="number" name="id" placeholder="ID" required />
+            </div>
+            <div class="field input-group">
+                <i class="wa-icon wa-icon-text"></i>
+                <input type="text" name="title" placeholder="Title" required />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="field input-group">
+                <i class="wa-icon wa-icon-user"></i>
+                <input type="text" name="vendor" placeholder="Vendor" required />
+            </div>
+            <div class="field input-group">
+                <i class="wa-icon wa-icon-tag"></i>
+                <input type="text" name="productType" placeholder="Type" required />
+            </div>
+        </div>
+
+        <div class="field input-group">
+            <i class="wa-icon wa-icon-dollar"></i>
+            <input type="number" step="0.01" name="price" placeholder="Price" required />
+        </div>
+
+        <button type="submit" class="save-btn">Add Product</button>
+    </form>
+</div>

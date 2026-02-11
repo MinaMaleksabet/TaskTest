@@ -1,0 +1,39 @@
+<div th:fragment="productsTableWithButton">
+
+    <div class="button-container">
+        <button class="wa-btn wa-btn-success add-product-btn"
+                hx-get="/fragments/product-form"
+                hx-target="#formContainer"
+                hx-swap="innerHTML">
+            <i class="wa-icon wa-icon-plus"></i> Add Product
+        </button>
+    </div>
+
+
+    <div id="formContainer" class="form-container"></div>
+
+
+    <table>
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Vendor</th>
+            <th>Type</th>
+            <th>Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product, iterStat : ${products}">
+            <td th:text="${iterStat.index + 1}"></td>
+            <td th:text="${product.id}"></td>
+            <td th:text="${product.title}"></td>
+            <td th:text="${product.vendor}"></td>
+            <td th:text="${product.productType}"></td>
+            <td th:text="${product.price}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
