@@ -43,5 +43,21 @@ class ProductController(private val productService: ProductService) {
     fun productForm(): String {
         return "fragments/product-form :: productForm"
     }
-}
 
+    // HTMX search endpoint (used by search page)
+    @GetMapping("/products/search")
+    fun searchProducts(
+        @RequestParam("query", required = false, defaultValue = "") query: String,
+        model: Model
+    ): String {
+        val products = productService.searchProductsByTitle(query)
+        model.addAttribute("products", products)
+        return "fragments/products :: productsTableWithButton"
+    }
+
+    // New separate search page
+    @GetMapping("/products/search-page")
+    fun productSearchPage(): String {
+        return "product-search"   // product-search.html template
+    }
+}

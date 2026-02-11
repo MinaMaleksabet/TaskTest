@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Products</title>
+    <title>Product Search</title>
 
     <!-- HTMX -->
     <script src="https://unpkg.com/htmx.org@1.9.5"></script>
@@ -71,7 +71,7 @@
             background-color: #e4cff1;
         }
 
-        /* Add Product Button */
+        /* Add Product Button (from fragment) */
         .wa-btn-success.add-product-btn {
             background-color: #330651;
             color: white;
@@ -90,7 +90,7 @@
             box-shadow: 0 8px 16px rgba(0,0,0,0.25);
         }
 
-        /* Form Container */
+        /* Form Container (from fragment) */
         .form-container {
             margin: 20px auto 30px;
             max-width: 500px;
@@ -182,49 +182,45 @@
 
 <body>
 
-<h1>Products</h1>
+<h1>Product Search</h1>
 
-<!-- Load Products Button -->
+<!-- Back to main page -->
 <div class="button-container">
-    <button id="loadBtn"
-            class="load-btn wa-btn wa-btn-lg"
-            hx-get="/products/load"
-            hx-target="#productsContainer"
-            hx-swap="innerHTML">
-        <i class="wa-icon wa-icon-download"></i>
-        Load Products
-    </button>
-</div>
-
-<!-- Search button (hidden until products are loaded) -->
-<div class="button-container" id="searchButtonContainer" style="display: none;">
     <button class="load-btn wa-btn wa-btn-lg"
-            onclick="window.location.href='/products/search-page'">
-        <i class="wa-icon wa-icon-search"></i>
-        Search Products
+            onclick="window.location.href='/'">
+        <i class="wa-icon wa-icon-arrow-left"></i>
+        Back to Main Page
     </button>
 </div>
 
-<!-- Container where products table & Add Product form will load -->
-<div id="productsContainer"></div>
+<!-- Active search box -->
+<div class="button-container">
+    <div class="product-form" style="max-width: 500px; margin: 0 auto;">
+        <div class="field">
+            <label for="productSearch">Search Products</label>
+            <div class="input-group">
+                <i class="wa-icon wa-icon-search"></i>
+                <input
+                        type="search"
+                        id="productSearch"
+                        name="query"
+                        placeholder="Search products by title..."
+                        hx-get="/products/search"
+                        hx-target="#productsContainer"
+                        hx-trigger="keyup changed delay:300ms, search"
+                />
+            </div>
+        </div>
+    </div>
+</div>
 
-<script>
-    document.body.addEventListener('htmx:afterSwap', function (evt) {
-        if (evt.target.id === 'productsContainer') {
-            document.body.classList.add('products-loaded');
-
-            const loadBtn = document.getElementById('loadBtn');
-            if (loadBtn) {
-                loadBtn.remove();
-            }
-
-            const searchContainer = document.getElementById('searchButtonContainer');
-            if (searchContainer) {
-                searchContainer.style.display = 'block';
-            }
-        }
-    });
-</script>
+<!-- This will render your existing fragment (with Add button and form) -->
+<div id="productsContainer"
+     hx-get="/products/search"
+     hx-trigger="load"
+     hx-target="#productsContainer"
+     hx-swap="innerHTML">
+</div>
 
 </body>
 </html>

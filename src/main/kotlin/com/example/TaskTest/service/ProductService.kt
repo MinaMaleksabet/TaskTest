@@ -12,4 +12,11 @@ class ProductService(private val productRepository: ProductRepository) {
     fun addProduct(product: Product) {
         productRepository.save(product)
     }
+
+    fun searchProductsByTitle(query: String): List<Product> =
+        if (query.isBlank()) {
+            productRepository.findAll()
+        } else {
+            productRepository.findByTitleContainingIgnoreCase(query.trim())
+        }
 }

@@ -44,4 +44,27 @@ class ProductRepository(
             }
             .list()
     }
+
+    fun findByTitleContainingIgnoreCase(query: String): List<Product> {
+        val pattern = "%${query}%"
+        return jdbcClient.sql(
+            """
+            SELECT id, title, vendor, product_type, price
+            FROM products
+            WHERE LOWER(title) LIKE LOWER(:pattern)
+            ORDER BY id
+            """
+        )
+            .param("pattern", pattern)
+            .query { rs, _ ->
+                Product(
+                    id = rs.getLong("id"),
+                    title = rs.getString("title"),
+                    vendor = rs.getString("vendor"),
+                    productType = rs.getString("product_type"),
+                    price = rs.getDouble("price")
+                )
+            }
+            .list()
+    }
 }
