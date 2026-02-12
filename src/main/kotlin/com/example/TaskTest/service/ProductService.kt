@@ -19,4 +19,10 @@ class ProductService(private val productRepository: ProductRepository) {
         } else {
             productRepository.findByTitleContainingIgnoreCase(query.trim())
         }
+
+    fun getProductById(id: Long): Product? = productRepository.findById(id)
+
+    fun updateProduct(product: Product) {
+        productRepository.update(product)
+    }
 }

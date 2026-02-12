@@ -67,4 +67,42 @@ class ProductRepository(
             }
             .list()
     }
+
+    fun findById(id: Long): Product? {
+        return jdbcClient.sql(
+            """
+            SELECT id, title, vendor, product_type, price
+            FROM products
+            WHERE id = :id
+            """
+        )
+            .param("id", id)
+            .query { rs, _ ->
+                Product(
+                    id = rs.getLong("id"),
+                    title = rs.getString("title"),
+                    vendor = rs.getString("vendor"),
+                    productType = rs.getString("product_type"),
+                    price = rs.getDouble("price")
+                )
+            }
+            .optional()
+            .orElse(null)
+    }
+
+    fun update(product: Product) {
+        jdbcClient.sql(
+            """
+            UPDATE products
+            SET title = :title, vendor = :vendor, product_type = :productType, price = :price
+            WHERE id = :id
+            """
+        )
+            .param("id", product.id)
+            .param("title", product.title)
+            .param("vendor", product.vendor)
+            .param("productType", product.productType)
+            .param("price", product.price)
+            .update()
+    }
 }

@@ -9,9 +9,7 @@
         </button>
     </div>
 
-
     <div id="formContainer" class="form-container"></div>
-
 
     <table>
         <thead>
@@ -22,6 +20,7 @@
             <th>Vendor</th>
             <th>Type</th>
             <th>Price</th>
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -32,6 +31,13 @@
             <td th:text="${product.vendor}"></td>
             <td th:text="${product.productType}"></td>
             <td th:text="${product.price}"></td>
+            <td>
+                <a th:href="@{/products/{id}/edit(id=${product.id})}"
+                   class="load-btn wa-btn"
+                   style="text-decoration: none; padding: 6px 12px; font-size: 12px;">
+                    Update
+                </a>
+            </td>
         </tr>
         </tbody>
     </table>
