@@ -85,4 +85,11 @@ class ProductController(private val productService: ProductService) {
         model.addAttribute("products", productService.getAllProducts())
         return "products-list"
     }
+
+    @PostMapping("/products/{id}/delete")
+    fun deleteProduct(@PathVariable id: Long): String {
+        productService.deleteProduct(id)
+        // after delete, go to the page that shows the table
+        return "redirect:/products/list"
+    }
 }
