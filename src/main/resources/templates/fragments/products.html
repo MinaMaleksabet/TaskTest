@@ -53,7 +53,8 @@
     </table>
 
     <!-- Styled delete confirmation dialog -->
-    <dialog id="deleteDialog" class="delete-dialog">
+    <dialog id="deleteDialog" class="delete-dialog"
+            onclick="if (event.target === this) this.close()">
         <form id="deleteForm" method="post" class="delete-form">
             <div class="delete-header">
                 <i class="wa-icon wa-icon-triangle-exclamation"></i>
@@ -137,8 +138,6 @@
             const message = document.getElementById('deleteMessage');
 
             message.textContent = `Are you sure you want to delete product "${title}" (ID: ${id})?`;
-
-            // Build real URL: /products/{id}/delete
             form.action = `/products/${id}/delete`;
 
             dialog.showModal();
@@ -147,6 +146,26 @@
         function closeDeleteDialog() {
             document.getElementById('deleteDialog').close();
         }
+
+        // Close Add Product form when clicking outside it
+        document.addEventListener('click', function (event) {
+            const formContainer = document.getElementById('formContainer');
+            if (!formContainer) return;
+
+            const form = formContainer.querySelector('.product-form');
+            const addButton = document.querySelector('.add-product-btn');
+
+            // No form currently shown → nothing to do
+            if (!form) return;
+
+            const clickedInsideForm = event.target.closest('.product-form') !== null;
+            const clickedAddButton = addButton && addButton.contains(event.target);
+
+            // If click is NOT inside form and NOT on the "Add Product" button → close form
+            if (!clickedInsideForm && !clickedAddButton) {
+                formContainer.innerHTML = '';
+            }
+        });
     </script>
 
 </div>
