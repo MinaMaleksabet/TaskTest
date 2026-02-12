@@ -118,5 +118,20 @@ class ProductRepository(
             .update()
     }
 
+    fun existsById(id: Long): Boolean {
+        return jdbcClient.sql(
+            """
+        SELECT 1
+        FROM products
+        WHERE id = :id
+        LIMIT 1
+        """
+        )
+            .param("id", id)
+            .query { _, _ -> 1 }
+            .list()              // get a Kotlin List<Int>
+            .isNotEmpty()        // true if at least one row
+    }
+
 
 }

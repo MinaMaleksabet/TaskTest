@@ -20,10 +20,6 @@
             text-align: center;
         }
 
-        body.products-loaded {
-            background-color: #e4cff1;
-        }
-
         h1 {
             margin-bottom: 20px;
             text-align: center;
@@ -194,7 +190,7 @@
 </div>
 
 <!-- Active search box styled like add form -->
-<div class="button-container">
+<div class="button-container" id="searchFormWrapper">
     <div class="product-form" style="max-width: 500px; margin: 0 auto;">
         <div class="field">
             <label for="productSearch">Search Products</label>
@@ -221,6 +217,20 @@
      hx-target="#productsContainer"
      hx-swap="innerHTML">
 </div>
+
+<script>
+    // Close search form card when clicking outside of it
+    document.addEventListener('click', function (event) {
+        const wrapper = document.getElementById('searchFormWrapper');
+        if (!wrapper) return;
+
+        const clickedInside = event.target.closest('#searchFormWrapper') !== null;
+
+        if (!clickedInside) {
+            wrapper.style.display = 'none';
+        }
+    });
+</script>
 
 </body>
 </html>

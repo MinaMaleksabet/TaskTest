@@ -30,5 +30,7 @@ class ProductService(private val productRepository: ProductRepository) {
         productRepository.deleteById(id)
     }
 
+    fun idExists(id: Long): Boolean = productRepository.existsById(id)
+
 
 }
