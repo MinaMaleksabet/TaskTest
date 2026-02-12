@@ -4,10 +4,17 @@
           hx-target="#productsContainer"
           hx-swap="innerHTML">
 
+        <!-- Error messages -->
+        <div th:if="${errors != null}" class="error-box">
+            <ul>
+                <li th:each="err : ${errors}" th:text="${err}"></li>
+            </ul>
+        </div>
+
         <div class="row">
             <div class="field input-group">
                 <i class="wa-icon wa-icon-hashtag"></i>
-                <input type="number" name="id" placeholder="ID" required />
+                <input type="number" name="id" placeholder="ID" required min="1" />
             </div>
             <div class="field input-group">
                 <i class="wa-icon wa-icon-text"></i>
@@ -28,7 +35,7 @@
 
         <div class="field input-group">
             <i class="wa-icon wa-icon-dollar"></i>
-            <input type="number" step="0.01" name="price" placeholder="Price" required />
+            <input type="number" step="0.01" name="price" placeholder="Price" required min="0.01" />
         </div>
 
         <button type="submit" class="save-btn">Add Product</button>

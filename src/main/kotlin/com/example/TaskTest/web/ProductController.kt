@@ -30,6 +30,24 @@ class ProductController(private val productService: ProductService) {
         @RequestParam price: Double,
         model: Model
     ): String {
+        val errors = mutableListOf<String>()
+
+        if (id <= 0) {
+            errors.add("ID must be a positive number.")
+        }
+        if (price <= 0.0) {
+            errors.add("Price must be greater than 0.")
+        }
+        if (productService.idExists(id)) {
+            errors.add("A product with this ID already exists.")
+        }
+
+        if (errors.isNotEmpty()) {
+            model.addAttribute("errors", errors)
+            // we could also re-send the values if you want later
+            return "fragments/product-form :: productForm"
+        }
+
         val product = Product(id, title, vendor, productType, price)
         productService.addProduct(product)
 
