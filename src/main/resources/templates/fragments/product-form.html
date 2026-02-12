@@ -1,6 +1,8 @@
 <div th:fragment="productForm">
     <form id="productForm" class="product-form"
-          hx-post="/products/add" hx-target="#productsContainer" hx-swap="outerHTML">
+          hx-post="/products/add"
+          hx-target="#productsContainer"
+          hx-swap="innerHTML">
 
         <div class="row">
             <div class="field input-group">
